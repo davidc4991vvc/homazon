@@ -1,48 +1,47 @@
 var express = require('express');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var FacebookStrategy = require('passport-facebook');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(session);
+var hbs = require('hbs');
 
-// ROUTES
-var routes = require('./routes/index');
+var constants = require('./constants');
 var auth = require('./routes/auth');
-
-// MODELS
+var shop = require('./routes/shop');
+var admin = require('./routes/admin');
+var register = require('./routes/register');
 var User = require('./models/user');
 
+var REQUIRED_ENV = "FROM_PHONE TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN SECRET FB_CLIENT_ID FB_CLIENT_SECRET callbackURL MONGODB_URI STRIPE_PUBLIC_KEY STRIPE_SECRET_KEY".split(" ");
+REQUIRED_ENV.forEach(function(el) {
+  if (!process.env[el])
+    throw new Error("Missing required env var " + el);
+});
+
 var app = express();
+
+mongoose.connect(process.env.MONGODB_URI);
+var mongoStore = new MongoStore({mongooseConnection: mongoose.connection});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-var connect = process.env.MONGODB_URI || require('./models/connect');
-mongoose.connect(connect);
 
 app.use(session({
   secret: process.env.SECRET,
-  // name: 'Catscoookie',
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  // proxy: true,
-  // resave: true,
-  // saveUninitialized: true
+  store: mongoStore
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -74,14 +73,36 @@ passport.use(new LocalStrategy(function(username, password, done) {
       if (user.password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
+      if (user.registrationCode) {
+        return done(null, false, {
+          code: constants.PLEASE_VERIFY,
+          message: 'Please verify your phone number.',
+          userId: user._id
+        });
+      }
       // auth has has succeeded
       return done(null, user);
     });
   }
 ));
 
-app.use('/', auth(passport));
-app.use('/', routes);
+passport.use(new FacebookStrategy({
+    clientID: process.env.FB_CLIENT_ID,
+    clientSecret: process.env.FB_CLIENT_SECRET,
+    callbackURL: process.env.callbackURL
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+// Auth handled inside each module as necessary.
+app.use('/', auth(passport, mongoStore));
+app.use('/', register);
+app.use('/', shop);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
