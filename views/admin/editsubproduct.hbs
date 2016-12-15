@@ -1,0 +1,18 @@
+<h1>Add/edit subproduct</h1>
+<h2>Product: {{product.title}}</h2>
+<form method="POST">
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="{{subproduct.title}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Price</label>
+        <input type="text" name="price" value="{{subproduct.price}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>In stock</label>
+        <input type="text" name="stock" value="{{subproduct.stock}}" class="form-control">
+    </div>
+    <button class="btn btn-success">Save</button>
+    <a href="/admin/product/{{product._id}}" class="btn btn-danger">Back</a>
+</form>

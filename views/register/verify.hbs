@@ -2,21 +2,18 @@
     <div class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">Error:</span>
-        {{error}}
+      {{error}}
     </div>
 {{/if}}
 <form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
-    <h3>Login</h3>
+    <h3>Verify phone number</h3>
+    <p>We just texted you a verification code. Enter it here to continue.</p>
     <div class="form-group">
-        <label>Phone number</label>
-        <input type="text" name="username" class="form-control">
+        <label>Code</label>
+        <input type="text" name="code" class="form-control">
     </div>
     <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control">
-    </div>
-    <div class="form-group">
-        <button class="btn btn-success">Login</button>
-        <a class="btn btn-primary" href="/register">Register</a>
+        <button class="btn btn-success">Submit</button>
+        <a href="/login" class="btn btn-primary">Login</a>
     </div>
 </form>

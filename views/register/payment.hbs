@@ -1,0 +1,24 @@
+{{#if error}}
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+      {{error}}
+    </div>
+{{/if}}
+
+{{! Could do something much more interesting with a Stripe custom form
+    here, see https://stripe.com/docs/custom-form but we do the simplest
+    option for now. }}
+<h1>Payment Info</h1>
+<h3>Please enter your payment information</h3>
+<form method="POST">
+    <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="{{stripeKey}}"
+          data-amount="999"
+          data-name="Homazon"
+          data-description="Widget"
+          data-image="/images/marketplace.png"
+          data-locale="auto">
+    </script>
+</form>

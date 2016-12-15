@@ -1,0 +1,20 @@
+<h1>Shopkeeper View</h1>
+<h2>Products</h2>
+<table class="table">
+  {{#each products}}
+      <tr>
+          <td><a href="product/{{_id}}">{{title}}</a></td>
+          <td><a href="product/delete/{{_id}}" class="btn btn-danger">Delete</a></td>
+      </tr>
+  {{else}}
+      (No products found)
+  {{/each}}
+</table>
+<p>
+    <a href="/admin/product" class="btn btn-primary">Add product</a>
+    <a href="/admin/orders" class="btn btn-primary">View orders</a>
+    <a href="/admin/users" class="btn btn-primary">View users</a>
+</p>
+<p>
+    <a href="/" class="btn btn-warning">Return to shop</a>
+</p>

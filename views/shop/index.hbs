@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}, your one-stop home shop.</p>
+<h2>Products:</h2>
+<ul>
+{{#each products}}
+  <li><a href="/product/{{_id}}">{{title}}</a></li>
+{{else}}
+  <li>(No products found)</li>
+{{/each}}
+</ul>
+{{> cart}}
+<p><a href="/logout" class="btn btn-default">Logout</a></p>
+{{#if isAdmin}}
+    <p><a href="/admin" class="btn btn-warning">Go to Shopkeeper view</a></p>
+{{/if}}

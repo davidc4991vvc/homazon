@@ -1,0 +1,28 @@
+<h1>Orders</h1>
+<table class="table">
+    <tr>
+        <td><b>ID</b></td>
+        <td><b>User</b></td>
+        <td><b>Placed</b></td>
+        <td><b>Total</b></td>
+        <td><b>Shipping</b></td>
+        <td><b>Payment</b></td>
+        <td><b>Status</b></td>
+    </tr>
+{{#each orders}}
+    <tr>
+        <td>{{_id}}</td>
+        <td>{{parent}}</td>
+        <td>{{placed}}</td>
+        <td>{{chargeTotal}}</td>
+        <td>{{shipping}}</td>
+        <td>{{payment}}</td>
+        <td>{{status}}</td>
+    </tr>
+{{else}}
+    (No orders found)
+{{/each}}
+</table>
+<p>
+    <a href="/admin/products" class="btn btn-default">Back</a>
+</p>

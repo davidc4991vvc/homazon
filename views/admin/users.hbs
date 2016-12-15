@@ -1,0 +1,26 @@
+<h1>Users</h1>
+<table class="table">
+    <tr>
+        <td><b>ID</b></td>
+        <td><b>Phone</b></td>
+        <td><b>Email</b></td>
+        <td><b>Register Code</b></td>
+        <td><b>Shipping</b></td>
+        <td><b>Payment</b></td>
+        <td><b>Admin</b></td>
+    </tr>
+    {{#each users}}
+        <tr>
+            <td>{{_id}}</td>
+            <td>{{username}}</td>
+            <td>{{email}}</td>
+            <td>{{registrationCode}}</td>
+            <td>{{defaultShipping}}</td>
+            <td>{{defaultPayment}}</td>
+            <td>{{isAdmin}}</td>
+        </tr>
+  {{/each}}
+</table>
+<p>
+    <a href="/admin/products" class="btn btn-default">Back</a>
+</p>

@@ -1,0 +1,27 @@
+<h1>{{product.title}}</h1>
+<img src="{{product.imageUri}}" style="width: 250px; margin-bottom: 10px">
+<p>{{product.description}}</p>
+<h2>Variations:</h2>
+<table class="table">
+    <tr>
+        <td><b>Description</b></td>
+        <td><b>Price</b></td>
+        <td colspan="2"><b>Stock</b></td>
+    </tr>
+    {{#each subproducts}}
+      <tr>
+          <td>{{title}}</td>
+          <td>{{displayPrice}}</td>
+          <td>{{stock}} unit(s) left{{#if inCart}}, {{inCart}} in cart{{/if}}</td>
+          {{#if stock}}
+              <td><a href="/cart/add/{{_id}}" class="btn btn-primary">Add to cart</a></td>
+          {{else}}
+              <td><a href="#" class="btn btn-primary disabled">Add to cart</a>
+              <font color="red">Out of stock!</font></td>
+          {{/if}}
+      </tr>
+    {{else}}
+      (No subproducts found)
+    {{/each}}
+</table>
+<a href="/" class="btn btn-default">Back</a>

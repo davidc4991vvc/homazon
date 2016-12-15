@@ -1,0 +1,36 @@
+<h1>Add/edit Product</h1>
+<h2>Product attributes</h2>
+<form method="POST">
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="{{product.title}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input type="text" name="description" value="{{product.description}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Image URI</label>
+        <input type="text" name="imageUri" value="{{product.imageUri}}" class="form-control">
+    </div>
+    <button class="btn btn-success">Save</button>
+    <a href="/admin/products" class="btn btn-danger">Back</a>
+</form>
+{{! Can only add subproducts if this product already exists}}
+{{#if product}}
+  <h2>Subproducts</h2>
+  <table class="table">
+      {{#each subproducts}}
+        {{! "parent" here === top-level product }}
+          <tr>
+              <td><a href="/admin/product/{{parent}}/subproduct/{{_id}}">{{title}} ({{displayPrice}})</a></td>
+              <td><a href="/admin/product/{{parent}}/subproduct/delete/{{_id}}" class="btn btn-danger">Delete</a></td>
+          </tr>
+      {{else}}
+        (No subproducts found. Add one!)
+      {{/each}}
+  </table>
+  <p>
+      <a href="/admin/product/{{product._id}}/subproduct" class="btn btn-primary">Add subproduct</a>
+  </p>
+{{/if}}
