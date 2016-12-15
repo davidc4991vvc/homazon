@@ -1,23 +1,29 @@
 {
-  "name": "homazon2",
+  "name": "homazon",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start_old": "node ./bin/www",
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
     "connect-mongo": "^1.2.1",
-    "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "express-session": "^1.13.0",
     "hbs": "~4.0.0",
     "mongoose": "^4.5.2",
+    "mongoose-findorcreate": "^0.1.2",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.3.0"
+    "phone": "^1.0.7",
+    "stripe": "^4.7.0",
+    "twilio": "^2.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
   }
 }
